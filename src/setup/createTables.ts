@@ -4,7 +4,6 @@ const createUsers = () => {
     var sql = `
     CREATE TABLE IF NOT EXISTS users (
 	id VARCHAR(255),
-	username VARCHAR(255),
 	email VARCHAR(255),
 	password VARCHAR(255),
 	verificationCode VARCHAR(255),
@@ -54,7 +53,11 @@ const createSessions = () => {
 };
 
 export default () => {
-  Promise.all([createUsers(), createItem(), createSessions()])
-    .then((d) => {})
-    .catch((err) => console.log(err));
+  return new Promise((resolve, reject) => {
+    Promise.all([createUsers(), createItem(), createSessions()])
+      .then(() => {
+        resolve(true);
+      })
+      .catch((err) => reject(err));
+  });
 };
