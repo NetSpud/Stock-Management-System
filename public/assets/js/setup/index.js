@@ -1,4 +1,4 @@
-console.log(`winSetup.js | loaded`);
+console.log(`setup.js | loaded`);
 const token = document
   .querySelector('meta[name="csrf-token"]')
   .getAttribute("content");
@@ -10,9 +10,12 @@ document.getElementById("startBtn").addEventListener("click", () => {
       "CSRF-Token": token,
     },
   };
-  fetch("/setup/windows/start", options)
+  fetch("/setup/start", options)
     .then((d) => d.json())
     .then((d) => {
       console.log(d);
+      if (d.success) {
+        window.location.href = d.success;
+      }
     });
 });
