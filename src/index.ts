@@ -16,6 +16,12 @@ app.use(
   })
 );
 
+declare module "express-session" {
+  export interface Session {
+    setup: boolean;
+  }
+}
+
 import adminRoute from "./admin";
 import setupRoute from "./setup";
 app.use("/admin", adminRoute);
