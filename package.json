@@ -13,6 +13,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/csurf": "^1.11.1",
     "@types/express": "^4.17.12",
+    "@types/express-mysql-session": "^2.1.2",
     "@types/express-session": "^1.17.3",
     "@types/mysql": "^2.15.18",
     "@types/node": "^15.0.1",
@@ -29,6 +30,7 @@
     "express-mysql-session": "^2.1.6",
     "express-session": "^1.17.2",
     "mysql": "^2.18.1",
+    "nanoid": "^3.1.23",
     "pug": "^3.0.2",
     "uuid": "^8.3.2"
   }
