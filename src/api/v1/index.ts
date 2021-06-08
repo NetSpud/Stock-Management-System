@@ -53,12 +53,14 @@ class Item {
   }
 }
 
-router.get("/new", (req, res) => {
+router.post("/new", (req, res) => {
   const item = new Item(req.session.userID);
-
-  item.create(`customName`, `3`);
+  const { name, quantity } = req.body;
+  item.create(name, quantity).then((d) => {
+    res.send(d);
+  });
 });
-router.get("/all", (req, res) => {
+router.get("/item/all", (req, res) => {
   const item = new Item(req.session.userID);
 
   item.all.then((d) => {
