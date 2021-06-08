@@ -13,8 +13,10 @@ router.get("/logout", loggedIn, (req, res) => {
   });
 });
 
-router.get("/item", (req, res) => {
-  res.render("item");
+router.get("/item", csurf(), (req, res) => {
+  res.render("item", {
+    csrf: req.csrfToken(),
+  });
 });
 
 import apiRoute from "../api";
