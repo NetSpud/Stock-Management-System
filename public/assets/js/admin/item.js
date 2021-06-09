@@ -19,6 +19,34 @@ const showValidFeedback = (el) => {
     el.classList.add("is-valid");
   }
 };
+
+const deleteItem = (el) => {
+  console.log(el);
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      "CSRF-Token": token,
+    },
+    body: JSON.stringify({
+      id: el.getAttribute("itemID"),
+    }),
+  };
+
+  fetch("/admin/api/v1/item/delete", options)
+    .then((d) => d.json())
+    .then((d) => {
+      if (d.err) {
+        alert(d.err);
+      } else if (d.success) {
+        el.innerHTML = "Removed item!";
+        setTimeout(() => {
+          el.parentElement.parentElement.parentElement.remove();
+        }, 1000);
+      }
+    });
+};
+
 document.querySelector("form").addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -61,7 +89,7 @@ document.querySelector("form").addEventListener("submit", (e) => {
         "CSRF-Token": token,
       },
     };
-    fetch("/admin/api/v1/new", options)
+    fetch("/admin/api/v1/item/new", options)
       .then((d) => d.json())
       .then((d) => {
         console.log(d);
@@ -95,7 +123,7 @@ new gridjs.Grid({
         `<a href='/admin/item/edit/${x.id}'>Edit</a>`,
         x.name,
         x.quantity,
-        `<a href='/admin/item/delete/${x.id}'>Delete</a</>`,
+        `<a href='#' itemID='${x.id}' onclick='deleteItem(this)'>Delete</a</>`,
       ]),
     //   data.map((card) => [card.name, card.lang, card.released_at, card.artist]),
   },
