@@ -37,18 +37,34 @@ export default class User {
   }
   exists(email: string) {
     return new Promise((resolve, reject) => {
+      let userExists = true;
       con.query(
         "SELECT * FROM userInvites where email = ?",
         [email],
         (err, result, fields) => {
           if (err) reject(err);
           if (result.length > 0) {
-            reject(`User Already Exists!`);
+            reject(`User Already Invited!`);
           } else {
-            resolve(true);
+            userExists = false;
           }
         }
       );
+      con.query(
+        "SELECT * FROM users where email = ?",
+        [email],
+        (err, result, fields) => {
+          if (err) reject(err);
+          if (result.length > 0) {
+            reject(`User Already Exists!`);
+          } else {
+            userExists = false;
+          }
+        }
+      );
+      if (!userExists) {
+        resolve(true);
+      }
     });
   }
   invite(email: string) {
