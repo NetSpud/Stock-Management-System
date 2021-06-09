@@ -21,7 +21,6 @@ const showValidFeedback = (el) => {
 };
 
 const deleteItem = (el) => {
-  console.log(el);
   const options = {
     method: "DELETE",
     headers: {
