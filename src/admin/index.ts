@@ -15,7 +15,9 @@ router.get("/logout", loggedIn, (req, res) => {
 
 import apiRoute from "../api";
 import itemRoute from "./item";
+import userRoute from "./user";
 router.use("/api", apiRoute);
 router.use("/item", itemRoute);
+router.use("/user", userRoute);
 
 export default router;
