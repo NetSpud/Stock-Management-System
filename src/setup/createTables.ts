@@ -1,8 +1,8 @@
 import con from "../utils/SQL";
 const createUsers = () => {
   return new Promise((resolve, reject) => {
-    var sql = `
-    CREATE TABLE IF NOT EXISTS users (
+    const sql = `
+  CREATE TABLE IF NOT EXISTS users (
 	id VARCHAR(255),
 	email VARCHAR(255),
 	password VARCHAR(255),
@@ -20,8 +20,8 @@ const createUsers = () => {
 };
 const createItem = () => {
   return new Promise((resolve, reject) => {
-    var sql = `
-    CREATE TABLE IF NOT EXISTS item (
+    const sql = `
+  CREATE TABLE IF NOT EXISTS item (
 	id VARCHAR(255),
 	name VARCHAR(255),
 	quantity VARCHAR(255),
@@ -37,8 +37,8 @@ const createItem = () => {
 };
 const createSessions = () => {
   return new Promise((resolve, reject) => {
-    var sql = `
-    CREATE TABLE IF NOT EXISTS sessions (
+    const sql = `
+  CREATE TABLE IF NOT EXISTS sessions (
   session_id varchar(128) COLLATE utf8mb4_bin NOT NULL,
   expires int(11) unsigned NOT NULL,
   data mediumtext COLLATE utf8mb4_bin,
@@ -52,9 +52,33 @@ const createSessions = () => {
   });
 };
 
+const createInvites = () => {
+  return new Promise((resolve, reject) => {
+    const sql = `
+  CREATE TABLE userInvites (
+	id VARCHAR(255),
+	email VARCHAR(255),
+	timeInvited VARCHAR(255),
+	code VARCHAR(255),
+	PRIMARY KEY (id)
+);`;
+
+    con.query(sql, (err, result) => {
+      if (err) reject(err);
+      console.log("Sessions Table Created");
+      resolve(true);
+    });
+  });
+};
+
 export default () => {
   return new Promise((resolve, reject) => {
-    Promise.all([createUsers(), createItem(), createSessions()])
+    Promise.all([
+      createUsers(),
+      createItem(),
+      createSessions(),
+      createInvites(),
+    ])
       .then(() => {
         resolve(true);
       })
