@@ -35,7 +35,7 @@ declare module "express-session" {
     setup: boolean;
     userID: string;
     email: string;
-    accountLevel: string;
+    accountLevel: number;
   }
 }
 
