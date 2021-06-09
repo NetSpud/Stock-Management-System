@@ -1,10 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
 import session from "express-session";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const MySQLStore = require("express-mysql-session")(session);
 dotenv.config();
 
-var options = {
+const options = {
   port: 3306,
   host: process.env.HOST || "localhost",
   user: process.env.USER || "root",
