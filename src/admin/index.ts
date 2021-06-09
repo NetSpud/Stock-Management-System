@@ -13,13 +13,9 @@ router.get("/logout", loggedIn, (req, res) => {
   });
 });
 
-router.get("/item", csurf(), (req, res) => {
-  res.render("item", {
-    csrf: req.csrfToken(),
-  });
-});
-
 import apiRoute from "../api";
+import itemRoute from "./item";
 router.use("/api", apiRoute);
+router.use("/item", itemRoute);
 
 export default router;
