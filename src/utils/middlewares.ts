@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 const loggedIn = (req: Request, res: Response, next: NextFunction) => {
   if (req.session.userID) {
-    next();
+    return next();
   } else {
-    res.redirect("/login");
+    return res.redirect("/login");
   }
 };
+
 export { loggedIn };
