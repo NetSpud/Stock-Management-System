@@ -40,7 +40,7 @@ router.post("/", csurf(), (req, res) => {
           if (result.length > 0) {
             req.session.userID = result[0].id;
             req.session.email = result[0].email;
-            req.session.accountLevel = result[0].accountLevel;
+            req.session.accountLevel = Number(result[0].accountLevel);
             resolve(true);
           }
         }
