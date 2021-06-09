@@ -31,24 +31,12 @@ html(lang='en')
             // Page Heading
             .d-sm-flex.align-items-center.justify-content-between.mb-4
               h1.h3.mb-0.text-gray-800 Items
-              a.d-none.d-sm-inline-block.btn.btn-sm.btn-secondary.shadow-sm(href='#')
-                i.fas.fa-download.fa-sm.text-white-50
-                |  Generate Report
             .row.justify-content-center
               // Content Column
               .col-lg-7.mb-4
                 .card.shadow.mb-4
                   .card-header.py-3.d-flex.flex-row.align-items-center.justify-content-between
                     h6.m-0.font-weight-bold.text-primary Create New Item
-                    .dropdown.no-arrow
-                      a#dropdownMenuLink.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
-                        i.fas.fa-ellipsis-v.fa-sm.fa-fw.text-gray-400
-                      .dropdown-menu.dropdown-menu-right.shadow.animated--fade-in(aria-labelledby='dropdownMenuLink')
-                        .dropdown-header Dropdown Header:
-                        a.dropdown-item(href='#') Action
-                        a.dropdown-item(href='#') Another action
-                        .dropdown-divider
-                        a.dropdown-item(href='#') Something else here
                   // Card Body
                   .card-body
                     form
@@ -69,11 +57,11 @@ html(lang='en')
           a.scroll-to-top.rounded(href='#page-top')
             i.fas.fa-angle-up
           // Logout Modal
-          #logoutModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+          #logoutModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='itemModalLabel' aria-hidden='true')
             .modal-dialog(role='document')
               .modal-content
                 .modal-header
-                  h5#exampleModalLabel.modal-title Ready to Leave?
+                  h5#itemModalLabel.modal-title Ready to Leave?
                   button.close(type='button' data-dismiss='modal' aria-label='Close')
                     span(aria-hidden='true') ×
                 .modal-body Select "Logout" below if you are ready to end your current session.
