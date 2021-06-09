@@ -11,7 +11,7 @@ const createUsers = () => {
 	verified BOOLEAN,
 	PRIMARY KEY (id)
 );`;
-    con.query(sql, (err, result) => {
+    con.query(sql, (err) => {
       if (err) reject(err);
       console.log("Users Table Created");
       resolve(true);
@@ -28,7 +28,7 @@ const createItem = () => {
 	userID VARCHAR(255),
 	PRIMARY KEY (id)
 );`;
-    con.query(sql, (err, result) => {
+    con.query(sql, (err) => {
       if (err) reject(err);
       console.log("Item Table Created");
       resolve(true);
@@ -44,7 +44,7 @@ const createSessions = () => {
   data mediumtext COLLATE utf8mb4_bin,
   PRIMARY KEY (session_id)
 );`;
-    con.query(sql, (err, result) => {
+    con.query(sql, (err) => {
       if (err) reject(err);
       console.log("Sessions Table Created");
       resolve(true);
@@ -63,7 +63,7 @@ const createInvites = () => {
 	PRIMARY KEY (id)
 );`;
 
-    con.query(sql, (err, result) => {
+    con.query(sql, (err) => {
       if (err) reject(err);
       console.log("Sessions Table Created");
       resolve(true);
@@ -71,7 +71,7 @@ const createInvites = () => {
   });
 };
 
-export default () => {
+export default (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     Promise.all([
       createUsers(),

@@ -1,11 +1,9 @@
-import mysql from "mysql";
 import con from "../utils/SQL";
-export default () => {
+export default (): Promise<string> => {
   return new Promise((resolve, reject) => {
-    con.query("SHOW TABLES", (err, result, fields) => {
+    con.query("SHOW TABLES", (err) => {
       if (err) reject(err);
       resolve("Connection Established!");
     });
   });
 };
-// export default checkConnection;

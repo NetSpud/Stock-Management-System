@@ -7,23 +7,19 @@ export default class Item {
   constructor(userID: string) {
     this._userID = userID;
   }
-  create(name: string, quantity: string) {
+  create(name: string, quantity: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      var sql =
+      const sql =
         "INSERT INTO item (id, name, quantity, userID) VALUES (?,?,?,?)";
-      con.query(
-        sql,
-        [uuidv4(), name, quantity, this._userID],
-        (err, result) => {
-          if (err) reject(err);
-          resolve(true);
-        }
-      );
+      con.query(sql, [uuidv4(), name, quantity, this._userID], (err) => {
+        if (err) reject(err);
+        resolve(true);
+      });
     });
   }
-  delete(itemID: string) {
+  delete(itemID: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      var sql = "DELETE FROM item where id = ? and userID = ?";
+      const sql = "DELETE FROM item where id = ? and userID = ?";
       con.query(sql, [itemID, this._userID], (err, result) => {
         if (err) reject(err);
         if (result.affectedRows > 0) {
@@ -34,13 +30,13 @@ export default class Item {
       });
     });
   }
-  get all() {
+  get all(): Promise<Record<string, unknown>> {
     return new Promise<{ id: string; name: string; quantity: string }>(
       (resolve, reject) => {
         con.query(
           "SELECT * FROM item where userID = ?",
           [this._userID],
-          (err, result, fields) => {
+          (err, result) => {
             if (err) reject(err);
             resolve(result);
           }
@@ -48,13 +44,13 @@ export default class Item {
       }
     );
   }
-  single(id: string) {
+  single(id: string): Promise<Record<string, unknown>> {
     return new Promise<{ id: string; name: string; quantity: string }>(
       (resolve, reject) => {
         con.query(
           "SELECT * FROM item where id = ? and userID = ?",
           [id, this._userID],
-          (err, result, fields) => {
+          (err, result) => {
             if (err) reject(err);
             resolve(result[0]);
           }
@@ -62,11 +58,11 @@ export default class Item {
       }
     );
   }
-  update(id: string, name: string, quantity: string) {
+  update(id: string, name: string, quantity: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      var sql =
+      const sql =
         "UPDATE item SET name = ?, quantity = ? WHERE id = ? and userID = ?";
-      con.query(sql, [name, quantity, id, this._userID], (err, result) => {
+      con.query(sql, [name, quantity, id, this._userID], (err) => {
         if (err) reject(err);
         resolve(true);
       });

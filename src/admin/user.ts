@@ -13,7 +13,7 @@ router.post("/invite", (req, res) => {
 
   user
     .exists(req.body.email)
-    .then((d) => {
+    .then(() => {
       return user.invite(req.body.email);
     })
     .then(() => {

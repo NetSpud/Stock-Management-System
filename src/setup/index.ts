@@ -11,7 +11,7 @@ import * as fs from "fs";
 const router = express.Router();
 
 const runSetup = () => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     fs.access("./setup", fs.constants.F_OK, (err) => {
       if (err) resolve(false);
       resolve(true);
@@ -44,7 +44,7 @@ router.get("/", csurf(), async (req, res) => {
     }
   });
 
-  if (req.session.setup) {
+if (req.session.setup) {
     Promise.all([testSQL(), testFS()])
       .then((d) => {
         res.render("setup", {
@@ -63,7 +63,7 @@ router.post("/start", csurf(), (req, res) => {
         success: "/setup/finish",
       });
     })
-    .then((d) => {
+    .then(() => {
       req.session.setup = false;
       req.session.save();
       createSetupFile();
@@ -76,7 +76,7 @@ router.get("/finish", csurf(), (req, res) => {
     return new Promise((resolve, reject) => {
       con.query(
         "SELECT * FROM users where accountLevel = 2",
-        (err, result, fields) => {
+        (err, result) => {
           if (err) reject(err);
           if (result.length > 0) {
             res.redirect("/login");
@@ -106,9 +106,9 @@ router.post("/finish", csurf(), (req, res) => {
 
   const createAccount = (id: string, email: string, hash: string) => {
     return new Promise((resolve, reject) => {
-      var sql =
+      const sql =
         "INSERT INTO users (id, email, password, verificationCode, accountLevel, verified) VALUES (?,?,?,?,?,?)";
-      con.query(sql, [id, email, hash, null, 2, 1], (err, result) => {
+      con.query(sql, [id, email, hash, null, 2, 1], (err) => {
         if (err) reject(err);
         resolve(true);
       });

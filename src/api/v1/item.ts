@@ -8,7 +8,7 @@ router.post("/new", (req, res) => {
   const { name, quantity } = req.body;
   item
     .create(name, quantity)
-    .then((d) => {
+    .then(() => {
       res.json({ success: true });
     })
     .catch((err) => res.json({ err: String(err) }));
@@ -36,7 +36,7 @@ router.put("/update", (req, res) => {
   const item = new Item(req.session.userID);
   item
     .update(req.body.id, req.body.name, req.body.quantity)
-    .then((d) => {
+    .then(() => {
       res.json({ success: true });
     })
     .catch((err) => res.json({ err: String(err) }));
@@ -46,7 +46,7 @@ router.delete("/delete", (req, res) => {
 
   item
     .delete(req.body.id)
-    .then((d) => {
+    .then(() => {
       res.json({ success: true });
     })
     .catch((err) => res.json({ err: String(err) }));

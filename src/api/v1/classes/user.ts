@@ -7,41 +7,33 @@ import dotenv from "dotenv";
 import pug from "pug";
 dotenv.config();
 export default class User {
-  constructor() {}
-  get all() {
+  get all(): Promise<Record<string, unknown>> {
     return new Promise((resolve, reject) => {
-      con.query(
-        "SELECT id, email, accountLevel FROM users",
-        (err, result, fields) => {
-          if (err) reject(err);
-          resolve(result);
-        }
-      );
+      con.query("SELECT id, email, accountLevel FROM users", (err, result) => {
+        if (err) reject(err);
+        resolve(result);
+      });
     });
   }
-  single(id: string) {
+  single(id: string): Promise<Record<string, unknown>> {
     return new Promise((resolve, reject) => {
-      con.query(
-        "SELECT * FROM users where id = ?",
-        [id],
-        (err, result, fields) => {
-          if (err) reject(err);
-          if (result.length > 0) {
-            resolve(result[0]);
-          } else {
-            reject(`Cannot find user`);
-          }
+      con.query("SELECT * FROM users where id = ?", [id], (err, result) => {
+        if (err) reject(err);
+        if (result.length > 0) {
+          resolve(result[0]);
+        } else {
+          reject(`Cannot find user`);
         }
-      );
+      });
     });
   }
-  exists(email: string) {
+  exists(email: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       let userExists = true;
       con.query(
         "SELECT * FROM userInvites where email = ?",
         [email],
-        (err, result, fields) => {
+        (err, result) => {
           if (err) reject(err);
           if (result.length > 0) {
             reject(`User Already Invited!`);
@@ -53,7 +45,7 @@ export default class User {
       con.query(
         "SELECT * FROM users where email = ?",
         [email],
-        (err, result, fields) => {
+        (err, result) => {
           if (err) reject(err);
           if (result.length > 0) {
             reject(`User Already Exists!`);
@@ -67,55 +59,51 @@ export default class User {
       }
     });
   }
-  invite(email: string) {
+  invite(email: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      var sql =
+      const sql =
         "INSERT INTO userInvites (id, email, timeInvited) VALUES (?,?,?)";
-      con.query(sql, [uuidv4(), email, new Date().getTime()], (err, result) => {
+      con.query(sql, [uuidv4(), email, new Date().getTime()], (err) => {
         if (err) reject(err);
         console.log("1 record inserted");
-        sendInviteEmail(email).then((d) => {
+        sendInviteEmail(email).then(() => {
           resolve(true);
         });
       });
     });
   }
-  hash(password: string) {
+  hash(password: string): Promise<string> {
     const saltRounds = 10;
     return bcrypt.hash(password, saltRounds);
   }
-  create(email: string, password: string) {
+  create(email: string, password: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       const id = uuidv4();
       const verificationCode = nanoid(100);
-      var sql =
+      const sql =
         "INSERT INTO users (id, email, password, verificationCode, accountLevel) VALUES (?,?,?,?,?)";
-      con.query(
-        sql,
-        [id, email, password, verificationCode, 1],
-        (err, result) => {
-          if (err) reject(err);
-          console.log("1 record inserted");
-          resolve(true);
-        }
-      );
+      con.query(sql, [id, email, password, verificationCode, 1], (err) => {
+        if (err) reject(err);
+        console.log("1 record inserted");
+        resolve(true);
+      });
     });
   }
 }
 const sendInviteEmail = (email: string) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const compiledFunction = pug.compileFile("views/inviteTemplate.pug");
     const html = compiledFunction({
       domain: process.env.DOMAIN,
       code: nanoid(100),
     });
-    var mailOptions = {
+    const mailOptions = {
       from: "hengieuk@gmail.com",
       to: email,
       subject: "Invitation to join stock management",
       html,
     };
-    var transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: process.env.EMAIL_USER || "",
