@@ -34,7 +34,7 @@ html(lang='en')
                 i.fas.fa-download.fa-sm.text-white-50
                 |  Generate Report
             // Content Row
-            .row
+            .row.cardRow
               // Earnings (Monthly) Card Example
               .col-xl-3.col-md-6.mb-4
                 .card.border-left-primary.shadow.h-100.py-2
@@ -50,7 +50,7 @@ html(lang='en')
               .col-xl-3.col-md-6.mb-4
                 .card.border-left-success.shadow.h-100.py-2
                   .card-body
-                    .row.no-gutters.align-items-center
+                    a.row.no-gutters.align-items-center(href='/admin/user' style="text-decoration: none;")
                       .col.mr-2
                         .text-xs.font-weight-bold.text-success.text-uppercase.mb-1
                           | Users
@@ -274,3 +274,10 @@ html(lang='en')
           // Page level custom scripts
           script(src='/assets/js/demo/chart-area-demo.js')
           script(src='/assets/js/demo/chart-pie-demo.js')
+          style.
+            .cardRow .card:hover {
+            transform: translate(0px, -10px);
+            }
+            .cardRow .card {
+            transition: all 0.5s;
+            }
