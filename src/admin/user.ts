@@ -19,7 +19,7 @@ router.post("/invite", (req, res) => {
     .then(() => {
       res.json({ success: true });
     })
-    .catch((err) => res.json({ error: String(err) }));
+    .catch((err) => res.json({ err: String(err) }));
 });
 
 export default router;
