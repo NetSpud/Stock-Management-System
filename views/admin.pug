@@ -42,8 +42,8 @@ html(lang='en')
                     .row.no-gutters.align-items-center
                       .col.mr-2
                         .text-xs.font-weight-bold.text-primary.text-uppercase.mb-1
-                          | Earnings (Monthly)
-                        .h5.mb-0.font-weight-bold.text-gray-800 $40,000
+                          | Total Items In Database
+                        .h5.mb-0.font-weight-bold.text-gray-800#itemCount
                       .col-auto
                         i.fas.fa-calendar.fa-2x.text-gray-300
               // Earnings (Monthly) Card Example
@@ -53,10 +53,10 @@ html(lang='en')
                     .row.no-gutters.align-items-center
                       .col.mr-2
                         .text-xs.font-weight-bold.text-success.text-uppercase.mb-1
-                          | Earnings (Annual)
-                        .h5.mb-0.font-weight-bold.text-gray-800 $215,000
+                          | Users
+                        .h5.mb-0.font-weight-bold.text-gray-800#userCount
                       .col-auto
-                        i.fas.fa-dollar-sign.fa-2x.text-gray-300
+                        i.fas.fa-user-alt.fa-2x.text-gray-300
               // Earnings (Monthly) Card Example
               .col-xl-3.col-md-6.mb-4
                 .card.border-left-info.shadow.h-100.py-2
@@ -268,6 +268,7 @@ html(lang='en')
           script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js')
           // Custom scripts for all pages
           script(src='/assets/js/sb-admin-2.min.js')
+          script(src='/assets/js/admin/admin.js')
           // Page level plugins
           script(src='/assets/js/chart.js/Chart.min.js')
           // Page level custom scripts
