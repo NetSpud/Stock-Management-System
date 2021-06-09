@@ -20,7 +20,7 @@ router.post("/", csurf(), (req, res) => {
       con.query(
         "SELECT id, email, password, accountLevel FROM users where email = ?",
         [email],
-        (err, result, fields) => {
+        (err, result) => {
           if (err) reject(err);
           if (result.length > 0) {
             resolve(result[0]);
@@ -35,7 +35,7 @@ router.post("/", csurf(), (req, res) => {
       con.query(
         "SELECT id, email, password, accountLevel FROM users where email = ?",
         [email],
-        (err, result, fields) => {
+        (err, result) => {
           if (err) reject(err);
           if (result.length > 0) {
             req.session.userID = result[0].id;
