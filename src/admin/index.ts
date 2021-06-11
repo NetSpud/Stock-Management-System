@@ -5,6 +5,8 @@ import csurf from "csurf";
 router.get("/", loggedIn, csurf(), (req, res) => {
   res.render("admin", {
     csrf: req.csrfToken(),
+    level: req.session.accountLevel,
+    email: req.session.email,
   });
 });
 router.get("/logout", loggedIn, (req, res) => {
@@ -16,8 +18,10 @@ router.get("/logout", loggedIn, (req, res) => {
 import apiRoute from "../api";
 import itemRoute from "./item";
 import userRoute from "./user";
+import bookingsRoute from "./booking";
 router.use("/api", apiRoute);
 router.use("/item", itemRoute);
 router.use("/user", userRoute);
+router.use("/bookings", bookingsRoute);
 
 export default router;
