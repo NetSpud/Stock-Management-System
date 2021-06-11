@@ -35,26 +35,24 @@ const createSetupFile = () => {
 
 router.get("/", csurf(), async (req, res) => {
   runSetup().then((d) => {
-    console.log(d);
-    console.log(d);
-    console.log(d);
     if (d === false) {
-      req.session.setup = true;
-      req.session.save();
+      Promise.all([testSQL(), testFS()])
+        .then((d) => {
+          res.render("setup", {
+            SQL: d[0],
+            FS: d[1],
+            csrf: req.csrfToken(),
+          });
+        })
+        .catch((err) => res.send(err));
+    } else {
+      res.json({ err: `Setup already configured` });
     }
   });
 
-if (req.session.setup) {
-    Promise.all([testSQL(), testFS()])
-      .then((d) => {
-        res.render("setup", {
-          SQL: d[0],
-          FS: d[1],
-          csrf: req.csrfToken(),
-        });
-      })
-      .catch((err) => res.send(err));
-  }
+  // if (req.session.setup) {
+
+  // }
 });
 router.post("/start", csurf(), (req, res) => {
   createTables()
@@ -74,17 +72,14 @@ router.post("/start", csurf(), (req, res) => {
 router.get("/finish", csurf(), (req, res) => {
   const checkAdminExists = () => {
     return new Promise((resolve, reject) => {
-      con.query(
-        "SELECT * FROM users where accountLevel = 2",
-        (err, result) => {
-          if (err) reject(err);
-          if (result.length > 0) {
-            res.redirect("/login");
-          } else {
-            resolve(false);
-          }
+      con.query("SELECT * FROM users where accountLevel = 2", (err, result) => {
+        if (err) reject(err);
+        if (result.length > 0) {
+          res.redirect("/login");
+        } else {
+          resolve(false);
         }
-      );
+      });
     });
   };
 
@@ -126,7 +121,7 @@ router.post("/finish", csurf(), (req, res) => {
     });
 });
 
-import userRoute from './user';
-router.use('/user', userRoute);
+import userRoute from "./user";
+router.use("/user", userRoute);
 
 export default router;
