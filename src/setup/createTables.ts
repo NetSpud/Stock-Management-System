@@ -70,6 +70,25 @@ const createInvites = () => {
     });
   });
 };
+const createBookings = () => {
+  return new Promise((resolve, reject) => {
+    const sql = `
+  CREATE TABLE bookings (
+	id VARCHAR(255),
+	items TEXT,
+	using_from VARCHAR(255),
+	using_until TEXT(255),
+	userID VARCHAR(255),
+	PRIMARY KEY (id)
+);`;
+
+    con.query(sql, (err) => {
+      if (err) reject(err);
+      console.log("Bookings Table Created");
+      resolve(true);
+    });
+  });
+};
 
 export default (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
@@ -78,6 +97,7 @@ export default (): Promise<boolean> => {
       createItem(),
       createSessions(),
       createInvites(),
+      createBookings(),
     ])
       .then(() => {
         resolve(true);
