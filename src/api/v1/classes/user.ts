@@ -27,18 +27,19 @@ export default class User {
       });
     });
   }
-  exists(email: string): Promise<boolean> {
+  exists(email: string, code?: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      let userExists = true;
+      let inviteUser = false;
       con.query(
-        "SELECT * FROM userInvites where email = ?",
-        [email],
+        "SELECT * FROM userInvites where email = ? or code = ?",
+        [email, code],
         (err, result) => {
           if (err) reject(err);
           if (result.length > 0) {
+            console.log(`User Already Invited!`);
             reject(`User Already Invited!`);
           } else {
-            userExists = false;
+            inviteUser = true;
           }
         }
       );
@@ -50,23 +51,24 @@ export default class User {
           if (result.length > 0) {
             reject(`User Already Exists!`);
           } else {
-            userExists = false;
+            inviteUser = true;
           }
         }
       );
-      if (!userExists) {
+      if (inviteUser === false) {
         resolve(true);
       }
     });
   }
   invite(email: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
+      const code = nanoid(100);
       const sql =
-        "INSERT INTO userInvites (id, email, timeInvited) VALUES (?,?,?)";
-      con.query(sql, [uuidv4(), email, new Date().getTime()], (err) => {
+        "INSERT INTO userInvites (id, email, timeInvited, code) VALUES (?,?,?,?)";
+      con.query(sql, [uuidv4(), email, new Date().getTime(), code], (err) => {
         if (err) reject(err);
         console.log("1 record inserted");
-        sendInviteEmail(email).then(() => {
+        sendInviteEmail(email, code).then(() => {
           resolve(true);
         });
       });
@@ -76,13 +78,12 @@ export default class User {
     const saltRounds = 10;
     return bcrypt.hash(password, saltRounds);
   }
-  create(email: string, password: string): Promise<boolean> {
+  create(email: string, password: string, verified?: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       const id = uuidv4();
-      const verificationCode = nanoid(100);
       const sql =
-        "INSERT INTO users (id, email, password, verificationCode, accountLevel) VALUES (?,?,?,?,?)";
-      con.query(sql, [id, email, password, verificationCode, 1], (err) => {
+        "INSERT INTO users (id, email, password, accountLevel, verified) VALUES (?,?,?,?,?)";
+      con.query(sql, [id, email, password, 1, verified], (err) => {
         if (err) reject(err);
         console.log("1 record inserted");
         resolve(true);
@@ -90,15 +91,15 @@ export default class User {
     });
   }
 }
-const sendInviteEmail = (email: string) => {
+const sendInviteEmail = (email: string, code: string) => {
   return new Promise((resolve) => {
     const compiledFunction = pug.compileFile("views/inviteTemplate.pug");
     const html = compiledFunction({
       domain: process.env.DOMAIN,
-      code: nanoid(100),
+      code,
     });
     const mailOptions = {
-      from: "hengieuk@gmail.com",
+      from: "example@example.com",
       to: email,
       subject: "Invitation to join stock management",
       html,
@@ -111,11 +112,11 @@ const sendInviteEmail = (email: string) => {
       },
     });
 
-    transporter.sendMail(mailOptions, (error, info) => {
+    transporter.sendMail(mailOptions, (error) => {
       if (error) {
         console.log(error);
       } else {
-        console.log("Email sent: " + info);
+        console.log(`Invite Sent To ${email}`);
         resolve(true);
       }
     });
