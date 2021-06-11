@@ -1,0 +1,55 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(name='description' content='')
+    meta(name='csrf-token' content=csrf)
+    title Configure Admin Account
+    // Custom fonts for this template
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css' rel='stylesheet' type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i' rel='stylesheet')
+    // Custom styles for this template
+    link(href='/assets/css/sb-admin-2.min.css' rel='stylesheet')
+  body.bg-gradient-primary
+    .container
+      .card.o-hidden.border-0.shadow-lg.my-5
+        .card-body.p-0
+          .row
+            .col-lg-5.d-none.d-lg-block.bg-register-image
+            .col-lg-7
+              .p-5
+                .text-center
+                  h1.h4.text-gray-900.mb-4 Setup Account
+                form.user
+                  //-.form-group.row
+                    .col-sm-6.mb-3.mb-sm-0
+                      input#exampleFirstName.form-control.form-control-user(type='text' placeholder='First Name')
+                    .col-sm-6
+                      input#exampleLastName.form-control.form-control-user(type='text' placeholder='Last Name')
+                  //-.form-group
+                    input#emailInput.form-control.form-control-user(type='email' placeholder='Email Address')
+                    .invalid-feedback#emailInputFeedback
+                  .form-group.row
+                    .col-sm-6.mb-3.mb-sm-0
+                      input#pass1Input.form-control.form-control-user(type='password' placeholder='Password')
+                      .invalid-feedback#pass1InputFeedback
+                    .col-sm-6
+                      input#pass2Input.form-control.form-control-user(type='password' placeholder='Repeat Password')
+                      .invalid-feedback#pass2InputFeedback
+                  button.btn.btn-primary.btn-user.btn-block(type='submit')
+                    | Complete Setup
+                hr
+                .text-center
+                  a.small(href='/reset-password') Forgot Password?
+                .text-center
+                  a.small(href='/login') Already have an account? Login!
+    // Bootstrap core JavaScript
+    script(src='https://code.jquery.com/jquery-3.6.0.min.js' integrity='sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=' crossorigin='anonymous')
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js' integrity='sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns' crossorigin='anonymous')
+    // Core plugin JavaScript
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js')
+    // Custom scripts for all pages
+    script(src='/assets/js/sb-admin-2.min.js')
+    script(src='/assets/js/setup/addUser.js')
