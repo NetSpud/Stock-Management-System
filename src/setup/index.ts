@@ -126,4 +126,7 @@ router.post("/finish", csurf(), (req, res) => {
     });
 });
 
+import userRoute from './user';
+router.use('/user', userRoute);
+
 export default router;
