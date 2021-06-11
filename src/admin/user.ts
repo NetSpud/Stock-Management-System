@@ -2,13 +2,14 @@ import express from "express";
 const router = express.Router();
 import csurf from "csurf";
 import User from "../api/v1/classes/user";
-router.get("/", csurf(), (req, res) => {
+import { adminAccess } from "../utils/middlewares";
+router.get("/", csurf(), adminAccess, (req, res) => {
   res.render("user", {
     csrf: req.csrfToken(),
   });
 });
 
-router.post("/invite", (req, res) => {
+router.post("/invite", adminAccess, (req, res) => {
   const user = new User();
 
   user
