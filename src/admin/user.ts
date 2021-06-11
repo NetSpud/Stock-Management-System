@@ -6,6 +6,7 @@ import { adminAccess } from "../utils/middlewares";
 router.get("/", csurf(), adminAccess, (req, res) => {
   res.render("user", {
     csrf: req.csrfToken(),
+    email: req.session.email,
   });
 });
 
