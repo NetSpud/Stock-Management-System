@@ -7,7 +7,7 @@ router.get("/all", (req, res) => {
     res.json(d);
   });
 });
-router.get("/create", (req, res) => {
+router.post("/create", (req, res) => {
   const user = new User();
   if (req.session.accountLevel === 2) {
     const { email, password } = req.body;
