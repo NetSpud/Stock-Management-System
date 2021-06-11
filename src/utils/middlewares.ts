@@ -7,4 +7,12 @@ const loggedIn = (req: Request, res: Response, next: NextFunction): void => {
   }
 };
 
-export { loggedIn };
+const adminAccess = (req: Request, res: Response, next: NextFunction): void => {
+  if (req.session.accountLevel === 2) {
+    return next();
+  } else {
+    res.redirect("/admin?accessDenied=true");
+  }
+};
+
+export { loggedIn, adminAccess };
