@@ -65,7 +65,6 @@ document.querySelector("form").addEventListener("submit", (e) => {
     fetch("/login", options)
       .then((d) => d.json())
       .then((d) => {
-        console.log(d);
         if (d.success) {
           window.location.href = d.success;
         }
