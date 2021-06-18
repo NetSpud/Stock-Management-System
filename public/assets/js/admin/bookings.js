@@ -1,4 +1,19 @@
 console.log(`bookings.js | loaded`);
+// eslint-disable-next-line no-undef
+$(function () {
+  // eslint-disable-next-line no-undef
+  $('[data-toggle="tooltip"]').tooltip();
+});
+// eslint-disable-next-line no-undef
+new Litepicker({
+  element: document.getElementById("start-date"),
+  elementEnd: document.getElementById("end-date"),
+  singleMode: false,
+  allowRepick: true,
+  showTooltip: true,
+  format: "DD MMM, YYYY",
+});
+
 fetch("/admin/api/v1/item/all")
   .then((d) => d.json())
   .then((d) => {
@@ -14,6 +29,9 @@ fetch("/admin/api/v1/item/all")
   });
 
 const duplicate = () => {
+  // eslint-disable-next-line no-undef
+  $("#another").tooltip("hide");
+
   const group = document.querySelector(".itemGroup").cloneNode(true);
   const itemSelect = group.querySelector(".itemType");
   const itemSelectLabel = group.querySelector(".choiceLabel");
@@ -38,23 +56,30 @@ const duplicate = () => {
     itemQuantity.classList.remove("is-valid");
   }
 
-  console.log(group);
+  group.querySelector(".form-row").appendChild(deleteButton());
+  // document.querySelector(".itemGroup").appendChild(group);
+  document
+    .querySelector(".itemGroup")
+    .parentNode.insertBefore(
+      group,
+      document.querySelector(".itemGroup").nextSibling
+    );
 };
 document.getElementById("another").addEventListener("click", duplicate);
 
-// const createEL = (name) => {
-//   const rnd = Math.floor(Math.random() * 50);
-//   const container = document.createElement("div");ite
-//   container.setAttribute("class", "custom-control custom-checkbox");
-//   const input = document.createElement("input");
-//   input.setAttribute("type", "checkbox");
-//   input.setAttribute("class", "custom-control-input");
-//   input.setAttribute("id", rnd);
-//   const label = document.createElement("label");
-//   label.setAttribute("for", rnd);
-//   label.setAttribute("class", "custom-control-label");
-//   label.innerHTML = name;
-//   container.appendChild(input);
-//   container.appendChild(label);
-//   return container;
-// };
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const removeItemRow = (el) => {
+  return el.parentElement.remove();
+};
+
+const deleteButton = () => {
+  const button = document.createElement("button");
+
+  button.setAttribute("class", "btn btn-danger btn-circle ml-auto");
+  button.setAttribute("type", "button");
+  button.setAttribute("onclick", "removeItemRow(this)");
+  const icon = document.createElement("i");
+  icon.setAttribute("class", "fas fa-trash");
+  button.appendChild(icon);
+  return button;
+};
