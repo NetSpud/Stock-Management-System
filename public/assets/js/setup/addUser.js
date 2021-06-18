@@ -92,6 +92,9 @@ document.querySelector("form").addEventListener("submit", (e) => {
       .then((d) => d.json())
       .then((d) => {
         console.log(d);
+        if (d.success) {
+          window.location.href = "/login";
+        }
       });
   }
 });
