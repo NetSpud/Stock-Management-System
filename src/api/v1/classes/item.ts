@@ -1,7 +1,7 @@
 import con from "../../../utils/SQL";
 import { v4 as uuidv4 } from "uuid";
 
-export default class Item {
+export default class {
   _userID: string;
 
   constructor(userID: string) {
@@ -38,6 +38,10 @@ export default class Item {
           [this._userID],
           (err, result) => {
             if (err) reject(err);
+            result.map((x: Record<string, unknown>) => {
+              x.quantity = Number(x.quantity);
+              return x;
+            });
             resolve(result);
           }
         );
