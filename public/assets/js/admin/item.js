@@ -20,6 +20,7 @@ const showValidFeedback = (el) => {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const deleteItem = (el) => {
   const options = {
     method: "DELETE",
@@ -95,23 +96,28 @@ document.querySelector("form").addEventListener("submit", (e) => {
       });
   }
 });
+// eslint-disable-next-line no-undef
 new gridjs.Grid({
   //   columns: ["Edit", "Name", "Quantity", "Delete"],
   columns: [
     {
       name: "Edit",
+      // eslint-disable-next-line no-undef
       formatter: (cell) => gridjs.html(`${cell}`),
     },
     {
       name: "Name",
+      // eslint-disable-next-line no-undef
       formatter: (cell) => gridjs.html(`${cell}`),
     },
     {
       name: "Quantity",
+      // eslint-disable-next-line no-undef
       formatter: (cell) => gridjs.html(`${cell}`),
     },
     {
       name: "Delete",
+      // eslint-disable-next-line no-undef
       formatter: (cell) => gridjs.html(`${cell}`),
     },
   ],
