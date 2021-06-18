@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import { loggedIn } from "../utils/middlewares";
+import { loggedIn, adminAccess } from "../utils/middlewares";
 import csurf from "csurf";
 router.get("/", loggedIn, csurf(), (req, res) => {
   res.render("admin", {
@@ -19,9 +19,9 @@ import apiRoute from "../api";
 import itemRoute from "./item";
 import userRoute from "./user";
 import bookingsRoute from "./booking";
-router.use("/api", apiRoute);
-router.use("/item", itemRoute);
-router.use("/user", userRoute);
-router.use("/bookings", bookingsRoute);
+router.use("/api", loggedIn, apiRoute);
+router.use("/item", loggedIn, itemRoute);
+router.use("/user", loggedIn, adminAccess, userRoute);
+router.use("/bookings", loggedIn, bookingsRoute);
 
 export default router;
