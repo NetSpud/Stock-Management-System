@@ -73,3 +73,62 @@ document.querySelector("form").addEventListener("submit", (e) => {
       });
   }
 });
+
+// eslint-disable-next-line no-undef
+new gridjs.Grid({
+  //   columns: ["Edit", "Name", "Quantity", "Delete"],
+  columns: [
+    {
+      name: "Edit",
+      // eslint-disable-next-line no-undef
+      formatter: (cell) => gridjs.html(`${cell}`),
+    },
+    {
+      name: "Email",
+      // eslint-disable-next-line no-undef
+      formatter: (cell) => gridjs.html(`${cell}`),
+    },
+    {
+      name: "Account Level",
+      // eslint-disable-next-line no-undef
+      formatter: (cell) => gridjs.html(`${cell}`),
+    },
+    {
+      name: "Reset Password",
+      // eslint-disable-next-line no-undef
+      formatter: (cell) => gridjs.html(`${cell}`),
+    },
+    {
+      name: "Delete",
+      // eslint-disable-next-line no-undef
+      formatter: (cell) => gridjs.html(`${cell}`),
+    },
+  ],
+  server: {
+    url: "/admin/api/v1/user/all",
+    then: (data) =>
+      data.map((x) => [
+        `<a href='/admin/item/edit/${x.id}'>Edit</a>`,
+        x.email,
+        x.accountLevel,
+        `<a href='/admin/api/v1/user/reset/${x.id}' class='btn btn-primary'>Reset</a>`,
+        `<a href='#' itemID='${x.id}' onclick='deleteItem(this)'>Delete</a</>`,
+      ]),
+    //   data.map((card) => [card.name, card.lang, card.released_at, card.artist]),
+  },
+  search: true,
+  pagination: {
+    enabled: true,
+    limit: 10,
+    summary: true,
+  },
+  language: {
+    search: {
+      placeholder: "Filter results down...",
+    },
+    pagination: {
+      showing: "👓 Displaying",
+      results: () => "Records",
+    },
+  },
+}).render(document.getElementById("table"));
