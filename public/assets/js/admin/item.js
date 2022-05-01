@@ -92,7 +92,10 @@ document.querySelector("form").addEventListener("submit", (e) => {
     fetch("/admin/api/v1/item/new", options)
       .then((d) => d.json())
       .then((d) => {
-        console.log(d);
+        if (d.err) {
+          console.error(d.err);
+        }
+        location.reload();
       });
   }
 });
