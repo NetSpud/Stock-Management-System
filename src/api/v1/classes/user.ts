@@ -5,6 +5,8 @@ import bcrypt from "bcrypt";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import pug from "pug";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 dotenv.config();
 export default class User {
   get all(): Promise<Record<string, unknown>> {
@@ -90,7 +92,77 @@ export default class User {
       });
     });
   }
+  resetPassword(userID: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const code = nanoid(255);
+      prisma.users
+        .update({
+          where: {
+            id: userID,
+          },
+          data: {
+            verificationCode: code,
+          },
+        })
+        .then(() => {
+          return prisma.users.findFirst({
+            where: {
+              id: userID,
+            },
+            select: {
+              email: true,
+            },
+          });
+        })
+        .then((d: unknown) => {
+          const data = d as Record<string, string>;
+          return sendResetPassword(data.email, code);
+        })
+        .then(() => resolve(true))
+        .catch((err) => reject(err));
+    });
+  }
+  deleteAccount(userID: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      prisma.users.delete({
+        where: {
+          id: userID,
+        },
+      });
+    });
+  }
 }
+const sendResetPassword = (email: string, code: string) => {
+  return new Promise((resolve) => {
+    const compiledFunction = pug.compileFile("views/resetPasswordTemplate.pug");
+    const html = compiledFunction({
+      domain: process.env.DOMAIN,
+      code,
+    });
+    const mailOptions = {
+      from: "example@example.com",
+      to: email,
+      subject: "Password reset request for Stock Management",
+      html,
+    };
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER as string,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    transporter.sendMail(mailOptions, (error) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(`Invite Sent To ${email}`);
+        resolve(true);
+      }
+    });
+  });
+};
 const sendInviteEmail = (email: string, code: string) => {
   return new Promise((resolve) => {
     const compiledFunction = pug.compileFile("views/inviteTemplate.pug");
