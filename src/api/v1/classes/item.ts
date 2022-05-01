@@ -1,6 +1,7 @@
 import con from "../../../utils/SQL";
 import { v4 as uuidv4 } from "uuid";
-
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 export default class {
   _userID: string;
 
@@ -70,6 +71,21 @@ export default class {
         if (err) reject(err);
         resolve(true);
       });
+    });
+  }
+  changeItemOwnership(itemID: string, newUserID: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      prisma.item
+        .update({
+          where: {
+            id: itemID,
+          },
+          data: {
+            userID: newUserID,
+          },
+        })
+        .then(() => resolve(true))
+        .catch((err) => reject(err));
     });
   }
 }
