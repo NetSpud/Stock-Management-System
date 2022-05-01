@@ -23,4 +23,18 @@ router.post("/invite", (req, res) => {
     .catch((err) => res.json({ err: String(err) }));
 });
 
+router.put("/reset-password", (req, res) => {
+  const user = new User();
+
+  user
+    .exists(req.body.email)
+    .then(() => {
+      return user.resetPassword(req.body.id);
+    })
+    .then(() => {
+      res.json({ success: true });
+    })
+    .catch((err) => res.json({ err: String(err) }));
+});
+
 export default router;
