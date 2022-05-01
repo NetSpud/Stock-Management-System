@@ -17,5 +17,8 @@ document.getElementById("startBtn").addEventListener("click", () => {
       if (d.success) {
         window.location.href = d.success;
       }
+      if (d.err) {
+        document.getElementById("errors").innerText = JSON.stringify(d.err);
+      }
     });
 });
