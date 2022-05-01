@@ -60,7 +60,6 @@ document.querySelector("form").addEventListener("submit", (e) => {
     fetch("/admin/user/invite", options)
       .then((d) => d.json())
       .then((d) => {
-        console.log(d);
         if (d.success) {
           const btn = document.getElementById("submitBtn");
           btn.innerHTML = "Invited User!";
@@ -75,7 +74,7 @@ document.querySelector("form").addEventListener("submit", (e) => {
 });
 
 // eslint-disable-next-line no-undef
-new gridjs.Grid({
+const grid = new gridjs.Grid({
   //   columns: ["Edit", "Name", "Quantity", "Delete"],
   columns: [
     {
@@ -111,7 +110,7 @@ new gridjs.Grid({
         `<a href='/admin/item/edit/${x.id}'>Edit</a>`,
         x.email,
         x.accountLevel,
-        `<a href='/admin/api/v1/user/reset/${x.id}' class='btn btn-primary'>Reset</a>`,
+        `<a href='#!' data-id='${x.id}' class='btn btn-primary resetPassword'>Reset</a>`,
         `<a href='#' itemID='${x.id}' onclick='deleteItem(this)'>Delete</a</>`,
       ]),
     //   data.map((card) => [card.name, card.lang, card.released_at, card.artist]),
@@ -132,3 +131,26 @@ new gridjs.Grid({
     },
   },
 }).render(document.getElementById("table"));
+
+grid.on("ready", () => {
+  document.querySelectorAll(".resetPassword").forEach((item) => {
+    item.addEventListener("click", () => {
+      const userID = item.getAttribute("data-id");
+      const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "Application/json",
+          "CSRF-Token": token,
+        },
+        body: JSON.stringify({
+          id: userID,
+        }),
+      };
+      fetch("/admin/user/reset-password", options)
+        .then((d) => d.json())
+        .then((d) => {
+          console.log(d);
+        });
+    });
+  });
+});
