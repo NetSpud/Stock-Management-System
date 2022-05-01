@@ -33,7 +33,7 @@ html(lang='en')
               h1.h3.mb-0.text-gray-800 Items
             .row.justify-content-center
               // Content Column
-              .col-lg-4.mb-4
+              .col-lg-5.mb-4
                 .card.shadow.mb-4
                   .card-header.py-3.d-flex.flex-row.align-items-center.justify-content-between
                     h6.m-0.font-weight-bold.text-primary Add New User
@@ -52,7 +52,27 @@ html(lang='en')
         include footer.pug
           a.scroll-to-top.rounded(href='#page-top')
             i.fas.fa-angle-up
-          // Logout Modal
+          #confirmationDeleteUser.modal.fade(tabindex='-1' role='dialog' aria-labelledby='confirmationDeleteUserLabel' aria-hidden='true')
+            .modal-dialog(role='document')
+              .modal-content
+                .modal-header
+                  h5#confirmationDeleteUserTitle.modal-title Ready to Leave?
+                  button.close(type='button' data-dismiss='modal' aria-label='Close')
+                    span(aria-hidden='true') ×
+                .modal-body
+                  .form-group
+                    .custom-control.custom-checkbox
+                      input#customCheck1.custom-control-input(type='checkbox')
+                      label.custom-control-label(for='customCheck1') Check this custom checkbox
+
+
+
+
+
+                .modal-footer
+                  button.btn.btn-secondary(type='button' data-dismiss='modal') Cancel
+                  a.btn.btn-danger(href='#!') Confirm Deletion
+
           #logoutModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='itemModalLabel' aria-hidden='true')
             .modal-dialog(role='document')
               .modal-content
