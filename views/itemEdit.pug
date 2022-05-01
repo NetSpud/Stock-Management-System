@@ -54,20 +54,9 @@ html(lang='en')
                 #table
 
         include footer.pug
-          a.scroll-to-top.rounded(href='#page-top')
-            i.fas.fa-angle-up
+          
           // Logout Modal
-          #logoutModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='itemModalLabel' aria-hidden='true')
-            .modal-dialog(role='document')
-              .modal-content
-                .modal-header
-                  h5#itemModalLabel.modal-title Ready to Leave?
-                  button.close(type='button' data-dismiss='modal' aria-label='Close')
-                    span(aria-hidden='true') ×
-                .modal-body Select "Logout" below if you are ready to end your current session.
-                .modal-footer
-                  button.btn.btn-secondary(type='button' data-dismiss='modal') Cancel
-                  a.btn.btn-primary(href='login.html') Logout
+          
           // Bootstrap core JavaScript
           script(src='https://code.jquery.com/jquery-3.6.0.min.js')
           script(src='https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js' integrity='sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns' crossorigin='anonymous')
@@ -76,4 +65,5 @@ html(lang='en')
           script(src='https://unpkg.com/gridjs/dist/gridjs.umd.js')
           // Custom scripts for all pages
           script(src='/assets/js/sb-admin-2.min.js')
+          script(src='/assets/js/admin/index.js')
           script(src='/assets/js/admin/editItem.js')
