@@ -35,7 +35,6 @@ export default class {
     return new Promise((resolve, reject) => {
       con.query("SELECT * FROM bookings", (err, result) => {
         if (err) reject(err);
-        console.log(result);
         resolve(result);
       });
     });

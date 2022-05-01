@@ -27,7 +27,6 @@ router.get("/single/:id", (req, res) => {
   item
     .single(req.params.id)
     .then((d) => {
-      console.log(d);
       res.json(d);
     })
     .catch((err) => res.json({ err: String(err) }));
