@@ -47,7 +47,6 @@ app.use("/admin", adminRoute);
 
 app.get("/", (req, res) => {
   res.sendStatus(200);
-  console.log(req.session);
 });
 
 app.use("/setup", setupRoute);

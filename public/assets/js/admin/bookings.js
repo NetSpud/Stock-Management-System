@@ -17,8 +17,6 @@ new Litepicker({
 fetch("/admin/api/v1/item/all")
   .then((d) => d.json())
   .then((d) => {
-    console.log(d);
-
     for (let i = 0; i < d.length; i++) {
       const el = d[i];
       const option = document.createElement("option");
