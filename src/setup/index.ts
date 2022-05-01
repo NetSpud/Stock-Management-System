@@ -21,15 +21,11 @@ const runSetup = () => {
 
 const createSetupFile = () => {
   return new Promise((resolve, reject) => {
-    fs.appendFile(
-      "./setup",
-      "DO NOT DELETE\nTHIS FILE PREVENTS THE SETUP CONFIG FROM RUNNING AGAIN BEFORE THE DATABASE IS CONFIGURED!\nAlthough... If you want to run the setup again, by all means delete this file :)",
-      (err) => {
-        if (err) reject(err);
-        console.log("Saved!");
-        resolve(true);
-      }
-    );
+    fs.appendFile("./setup", "DO NOT DELETE\nTHIS FILE PREVENTS THE SETUP CONFIG FROM RUNNING AGAIN BEFORE THE DATABASE IS CONFIGURED!\nAlthough... If you want to run the setup again, by all means delete this file :)", (err) => {
+      if (err) reject(err);
+      console.log("Saved!");
+      resolve(true);
+    });
   });
 };
 
@@ -44,7 +40,7 @@ router.get("/", csurf(), async (req, res) => {
             csrf: req.csrfToken(),
           });
         })
-        .catch((err) => res.send(err));
+        .catch((err) => res.json({ err }));
     } else {
       res.json({ err: `Setup already configured` });
     }
@@ -66,7 +62,7 @@ router.post("/start", csurf(), (req, res) => {
       req.session.save();
       createSetupFile();
     })
-    .catch((err) => res.send(err));
+    .catch((err) => res.json({ err }));
 });
 
 router.get("/finish", csurf(), (req, res) => {
@@ -101,8 +97,7 @@ router.post("/finish", csurf(), (req, res) => {
 
   const createAccount = (id: string, email: string, hash: string) => {
     return new Promise((resolve, reject) => {
-      const sql =
-        "INSERT INTO users (id, email, password, verificationCode, accountLevel, verified) VALUES (?,?,?,?,?,?)";
+      const sql = "INSERT INTO users (id, email, password, verificationCode, accountLevel, verified) VALUES (?,?,?,?,?,?)";
       con.query(sql, [id, email, hash, null, 2, 1], (err) => {
         if (err) reject(err);
         resolve(true);

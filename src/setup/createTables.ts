@@ -92,13 +92,7 @@ const createBookings = () => {
 
 export default (): Promise<boolean> => {
   return new Promise((resolve, reject) => {
-    Promise.all([
-      createUsers(),
-      createItem(),
-      createSessions(),
-      createInvites(),
-      createBookings(),
-    ])
+    Promise.all([createUsers(), createItem(), createSessions(), createInvites(), createBookings()])
       .then(() => {
         resolve(true);
       })
